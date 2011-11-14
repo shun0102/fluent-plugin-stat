@@ -25,17 +25,11 @@ class Stat
           :steal => info[8].to_i,
           :guest => info[9].to_i
         }
-      else
-        if info.size > 2
-          hash[info.first.to_sym] = info[1..-1].map{ |e| e.to_i }
-        else
-          hash[info.first.to_sym] = info[1].to_i
-        end
       end
     end
     return hash
   end
-
+  
   def get_net_info
     hash = Hash.new
     IO.readlines('/proc/net/dev').each do |line|
@@ -82,7 +76,7 @@ class Stat
           :wsect => info[9].to_i,
           :wuse => info[10].to_i,
           :running => info[11].to_i,
-          :use => info[12].to_i,          
+          :use => info[12].to_i,
           :aveq => info[13].to_i
         }
       end
