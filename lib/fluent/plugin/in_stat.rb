@@ -11,6 +11,7 @@ module Fluent
     end
 
     config_param :tag, :string
+    config_param :interval, :time
 
     def configure(conf)
       super
@@ -19,7 +20,7 @@ module Fluent
     def start
       super
       stat = Stat.new
-      interval = 1
+      interval = @interval
 
       while true
         result = stat.calc_difference(interval)
