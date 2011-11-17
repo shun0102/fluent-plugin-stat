@@ -19,20 +19,27 @@ module Fluent
 
     def start
       super
-      stat = Stat.new
-      interval = @interval
+      
+      @thread = Thread.new(&method(:run))
+    end
 
-      while true
-        result = stat.calc_difference(interval)
+    def run
+      stat = Stat.new
+      @running = true
+      while @running
+        result = stat.calc_difference(@interval)
         record = {
           'hostname' => @hostname,
           'stats' => result
         }
-
         Engine.emit(@tag,  Engine.now, record)
-      end
+      end      
     end
 
+    def shutdown
+      @running = false
+      @thread.join
+    end
   end
 
 end
