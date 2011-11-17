@@ -94,7 +94,7 @@ class Stat
     return hash
   end
 
-  def calc_cpu_difference(interval = 1.0)
+  def calc_cpu_difference(interval)
     current = self.get_proc_info
     
     diff = @prev[:cpu].merge(current){ |key, self_val, other_val|
@@ -110,7 +110,7 @@ class Stat
     return diff
   end
 
-  def calc_net_difference(interval = 1.0)
+  def calc_net_difference(interval)
     current = self.get_net_info
 
     diff = @prev[:net].merge(current){ |k, self_hash, other_hash|
@@ -122,7 +122,7 @@ class Stat
     return diff
   end
 
-  def calc_disk_difference(interval = 1.0)
+  def calc_disk_difference(interval)
     current = self.get_disk_info
 
     diff = @prev[:disk].merge(current){ |k, self_hash, other_hash|
@@ -137,9 +137,9 @@ class Stat
   def calc_difference(interval = 1.0)
     sleep interval
     stat = Hash.new
-    stat[:cpu] = self.calc_cpu_difference
-    stat[:net] = self.calc_net_difference
-    stat[:disk] = self.calc_disk_difference
+    stat[:cpu] = self.calc_cpu_difference(interval)
+    stat[:net] = self.calc_net_difference(interval)
+    stat[:disk] = self.calc_disk_difference(interval)
     stat[:mem] = self.get_mem_info
 
     return stat
@@ -147,4 +147,3 @@ class Stat
 
 end
 end
-
