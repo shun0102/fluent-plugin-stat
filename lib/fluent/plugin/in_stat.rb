@@ -21,8 +21,9 @@ module Fluent
       super
       stat = Stat.new
       interval = @interval
+      @@running = true
 
-      while true
+      while @running
         result = stat.calc_difference(interval)
         record = {
           'hostname' => @hostname,
@@ -33,6 +34,9 @@ module Fluent
       end
     end
 
+    def stop
+      @@running = false
+    end
   end
 
 end
